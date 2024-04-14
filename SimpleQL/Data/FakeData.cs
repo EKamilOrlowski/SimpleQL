@@ -107,7 +107,7 @@ namespace SimpleQL.Data
       var casePropertyId = 1;
       var caseFaker = new Faker<Case>()
         .RuleFor(p => p.Id, _ => caseId++)
-        .RuleFor(p => p.Number, f => f.Random.Number().ToString())
+        .RuleFor(p => p.Number, f => f.Random.Number(1, 100000000).ToString())
         .RuleFor(p => p.Description, f => f.Lorem.Sentence())
         .RuleFor(p => p.Debt, f => f.Finance.Amount())
         .RuleFor(p => p.Currency, f => f.Finance.Currency().Code)

@@ -1,4 +1,5 @@
 
+using HotChocolate.Types.Pagination;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -24,6 +25,15 @@ namespace SimpleQL
 
       // Add services to the container.
       builder.Services.AddControllers();
+
+      builder.Services
+        .AddGraphQLServer()
+        .RegisterDbContext<SimpleQLDbContext>()
+        .AddQueryType<CaseQuery>()
+        .SetPagingOptions(new PagingOptions { MaxPageSize = 5 })
+        .AddFiltering()
+        .AddSorting()
+        .AddProjections();
 
       // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
       builder.Services.AddEndpointsApiExplorer();
@@ -69,8 +79,9 @@ namespace SimpleQL
 
       app.UseAuthorization();
 
-
       app.MapControllers();
+
+      app.MapGraphQL();
 
       app.Run();
     }
